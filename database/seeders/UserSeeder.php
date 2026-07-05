@@ -28,7 +28,7 @@ class UserSeeder extends Seeder
 
         // Akun Manager (role_id = 3)
         User::create([
-            'name' => 'Budi Manager',
+            'name' => 'Intan Manager',
             'email' => 'manager@telkomsel.com',
             'password' => Hash::make('password123'),
             'role_id' => 3,

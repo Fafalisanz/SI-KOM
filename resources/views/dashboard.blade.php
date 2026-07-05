@@ -1,17 +1,4 @@
 <x-app-layout>
-    <title>Dashboard - Telkomsel Inventory</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-
- class="bg-gray-100 font-sans flex min-h-screen">
-
-    <aside class="w-64 bg-[#E11417] text-white flex flex-col justify-between shadow-xl">
-        <div>
-            <div class="p-6 border-b border-red-700 flex items-center space-x-3">
-                <img src="{{ asset('assets/img/telkom-logo.png') }}" alt="Logo" class="w-10 h-10 object-contain bg-white rounded-full p-1">
-                <span class="font-bold text-lg tracking-wider">TSK INVENTORY</span>
-            </div>
-
-            <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Dashboard') }}
@@ -20,64 +7,11 @@
 
     @php
         $user = auth()->user();
-        $roleLabel = match ($user->role_id) {
-            1 => 'Admin',
-            2 => 'Staff',
-            3 => 'Manager',
-            default => 'Unknown',
-        };
     @endphp
 
-    <div class="flex min-h-screen bg-gray-50">
+    <div class="flex w-full min-h-screen bg-gray-50">
 
-        {{-- SIDEBAR --}}
-        <aside class="w-64 bg-red-600 text-white flex flex-col justify-between">
-            <div>
-                <div class="px-4 py-5 text-lg font-bold border-b border-red-700">
-                    Inventaris PT Telkomsel
-                </div>
-
-                <nav class="mt-6 px-4 space-y-2">
-                    <a href="{{ route('dashboard') }}"
-                       class="flex items-center space-x-3 bg-red-700 px-4 py-3 rounded-lg text-sm font-semibold transition">
-                        <span>📊 Dashboard</span>
-                    </a>
-
-                    @if($user->role_id == 1 || $user->role_id == 2)
-                        <a href="#"
-                           class="flex items-center space-x-3 hover:bg-red-600 px-4 py-3 rounded-lg text-sm font-medium transition">
-                            <span>📦 Master Data Barang</span>
-                        </a>
-                        <a href="#"
-                           class="flex items-center space-x-3 hover:bg-red-600 px-4 py-3 rounded-lg text-sm font-medium transition">
-                            <span>🔄 Peminjaman Barang</span>
-                        </a>
-                    @endif
-
-                    @if($user->role_id == 1 || $user->role_id == 3)
-                        <a href="#"
-                           class="flex items-center space-x-3 hover:bg-red-600 px-4 py-3 rounded-lg text-sm font-medium transition">
-                            <span>📜 Laporan Inventaris</span>
-                        </a>
-                    @endif
-                </nav>
-            </div>
-
-            <div class="p-4 border-t border-red-700 bg-red-900 bg-opacity-30">
-                <div class="text-xs opacity-75">Login sebagai:</div>
-                <div class="font-bold text-sm truncate">{{ $user->name }}</div>
-                <div class="inline-block bg-white text-red-600 text-[10px] font-extrabold px-2 py-0.5 rounded mt-1 uppercase">
-                    {{ $roleLabel }}
-                </div>
-
-                <form method="POST" action="{{ route('logout') }}" class="mt-4">
-                    @csrf
-                    <button type="submit" class="w-full text-left text-xs text-red-200 hover:text-white font-medium transition">
-                        🚪 Keluar Aplikasi
-                    </button>
-                </form>
-            </div>
-        </aside>
+        @include('partials.sidebar')
 
         {{-- MAIN CONTENT --}}
         <main class="flex-1 flex flex-col overflow-hidden">
@@ -131,16 +65,16 @@
 
                         <div>
                             @if($user->role_id == 1)
-                                <button class="bg-[#E11417] text-white px-4 py-2 rounded-lg text-sm font-semibold mr-2 hover:bg-red-700 transition">
+                                <a href="{{ route('products.create') }}" class="bg-[#E11417] text-white px-4 py-2 rounded-lg text-sm font-semibold mr-2 hover:bg-red-700 transition inline-block">
                                     + Tambah Barang Baru
-                                </button>
+                                </a>
                                 <button class="bg-gray-800 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-gray-900 transition">
                                     ⚙️ Atur Pengguna
                                 </button>
                             @elseif($user->role_id == 2)
-                                <button class="bg-[#E11417] text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-red-700 transition">
+                                <a href="{{ route('products.create') }}" class="bg-[#E11417] text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-red-700 transition inline-block">
                                     + Tambah Barang Baru
-                                </button>
+                                </a>
                             @elseif($user->role_id == 3)
                                 <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition">
                                     🖨️ Cetak Laporan Bulanan
