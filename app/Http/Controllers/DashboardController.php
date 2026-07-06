@@ -2,25 +2,60 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
-use App\Models\Category;
 use App\Models\Borrowing;
-use Illuminate\Http\Request;
+use App\Models\Category;
+use App\Models\Product;
+use Illuminate\View\View;
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(): View
     {
-        // Mengambil data statistik riil dari database
-        $totalBarang = Product::sum('stock') ?? 0;
-        $totalKategori = Category::count() ?? 0;
-        
-        // Menghitung barang yang sedang dipinjam (bisa disesuaikan nanti)
-        $barangDipinjam = Borrowing::where('status', 'borrowed')->count() ?? 0;
-        
-        // Barang tersedia = sisa barang yang kondisinya bagus
-        $barangTersedia = Product::where('condition', 'Bagus')->sum('stock') ?? 0;
+        $totalBarang = Product::count();
+        $barangTersedia = Product::where('stock', '>', 0)->count();
+        $barangDipinjam = Borrowing::where('status', 'borrowed')->count();
+        $totalKategori = Category::count();
 
-        return view('dashboard', compact('totalBarang', 'totalKategori', 'barangDipinjam', 'barangTersedia'));
+        // === DATA GRAFIK: Peminjaman per Bulan (tahun berjalan) ===
+        $tahunIni = now()->year;
+
+        $peminjamanPerBulanRaw = Borrowing::selectRaw('MONTH(borrow_date) as bulan, COUNT(*) as total')
+            ->whereYear('borrow_date', $tahunIni)
+            ->groupBy('bulan')
+            ->pluck('total', 'bulan');
+
+        $namaBulan = [
+            1 => 'Jan', 2 => 'Feb', 3 => 'Mar', 4 => 'Apr',
+            5 => 'Mei', 6 => 'Jun', 7 => 'Jul', 8 => 'Agu',
+            9 => 'Sep', 10 => 'Okt', 11 => 'Nov', 12 => 'Des',
+        ];
+
+        $chartLabels = [];
+        $chartData = [];
+
+        foreach ($namaBulan as $angkaBulan => $label) {
+            $chartLabels[] = $label;
+            $chartData[] = $peminjamanPerBulanRaw[$angkaBulan] ?? 0;
+        }
+
+        // === AKTIVITAS TERBARU: 5 transaksi peminjaman terakhir ===
+        $aktivitasTerbaru = Borrowing::with('details.product')
+            ->latest()
+            ->take(5)
+            ->get();
+
+        // === STOK MENIPIS: barang dengan stok <= 5 (bonus fitur) ===
+        $stokMenipis = Product::where('stock', '<=', 5)->count();
+
+        return view('dashboard', compact(
+            'totalBarang',
+            'barangTersedia',
+            'barangDipinjam',
+            'totalKategori',
+            'chartLabels',
+            'chartData',
+            'aktivitasTerbaru',
+            'stokMenipis'
+        ));
     }
 }

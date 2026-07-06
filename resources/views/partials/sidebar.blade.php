@@ -18,7 +18,7 @@
         <div class="px-4 py-5 border-b border-red-700 flex items-center space-x-3">
             <img src="{{ asset('assets/img/telkom-logo.png') }}" alt="Logo"
                  class="w-10 h-10 object-contain bg-white rounded-full p-1">
-            <span class="font-bold text-lg tracking-wider">Invent Telkom</span>
+            <span class="font-bold text-lg tracking-wider">TSK INVENTORY</span>
         </div>
 
         <nav class="mt-6 px-4 space-y-2">
@@ -33,7 +33,7 @@
                 <a href="{{ route('categories.index') }}" class="{{ $linkClass(request()->routeIs('categories.*')) }}">
                     <span>🗂️ Kategori Barang</span>
                 </a>
-                <a href="#" class="{{ $linkClass(request()->routeIs('borrowings.*')) }}">
+                <a href="{{ route('borrowings.index') }}" class="{{ $linkClass(request()->routeIs('borrowings.*')) }}">
                     <span>🔄 Peminjaman Barang</span>
                 </a>
             @endif
