@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\BorrowingController;
+use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -28,6 +29,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/products', [ProductController::class, 'index'])->name('products.index');
     Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
     Route::get('/borrowings', [BorrowingController::class, 'index'])->name('borrowings.index');
+
+    // Laporan Inventaris - hanya Admin (1) & Manager (3)
+    Route::middleware('role:1,3')->group(function () {
+        Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+        Route::get('/reports/export', [ReportController::class, 'exportPdf'])->name('reports.export');
+    });
 
     // Hanya Admin (1) & Staff (2) yang boleh Tambah/Edit/Hapus
     Route::middleware('role:1,2')->group(function () {

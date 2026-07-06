@@ -37,7 +37,11 @@
                             <p class="text-sm text-gray-400 font-medium uppercase">Total Barang</p>
                             <h3 class="text-3xl font-bold text-gray-800 mt-1">{{ $totalBarang }}</h3>
                         </div>
-                        <div class="p-3 bg-red-50 text-red-600 rounded-lg text-2xl">📦</div>
+                        <div class="p-3 bg-red-50 text-red-600 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                            </svg>
+                        </div>
                     </div>
 
                     <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
@@ -45,7 +49,11 @@
                             <p class="text-sm text-gray-400 font-medium uppercase">Barang Tersedia</p>
                             <h3 class="text-3xl font-bold text-gray-700 mt-1">{{ $barangTersedia }}</h3>
                         </div>
-                        <div class="p-3 bg-green-50 text-green-600 rounded-lg text-2xl">✅</div>
+                        <div class="p-3 bg-green-50 text-green-600 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
                     </div>
 
                     <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
@@ -53,7 +61,11 @@
                             <p class="text-sm text-gray-400 font-medium uppercase">Barang Dipinjam</p>
                             <h3 class="text-3xl font-bold text-gray-700 mt-1">{{ $barangDipinjam }}</h3>
                         </div>
-                        <div class="p-3 bg-yellow-50 text-yellow-600 rounded-lg text-2xl">🔄</div>
+                        <div class="p-3 bg-yellow-50 text-yellow-600 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                            </svg>
+                        </div>
                     </div>
 
                     <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
@@ -61,7 +73,11 @@
                             <p class="text-sm text-gray-400 font-medium uppercase">Kategori</p>
                             <h3 class="text-3xl font-bold text-gray-700 mt-1">{{ $totalKategori }}</h3>
                         </div>
-                        <div class="p-3 bg-blue-50 text-blue-600 rounded-lg text-2xl">📂</div>
+                        <div class="p-3 bg-blue-50 text-blue-600 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v7a2 2 0 01-2 2H5a2 2 0 01-2-2V7z" />
+                            </svg>
+                        </div>
                     </div>
 
                     <div class="bg-white p-6 rounded-xl shadow-sm border {{ $stokMenipis > 0 ? 'border-red-200 ring-1 ring-red-100' : 'border-gray-100' }} flex items-center justify-between">
@@ -69,7 +85,11 @@
                             <p class="text-sm text-gray-400 font-medium uppercase">Stok Menipis</p>
                             <h3 class="text-3xl font-bold {{ $stokMenipis > 0 ? 'text-red-600' : 'text-gray-700' }} mt-1">{{ $stokMenipis }}</h3>
                         </div>
-                        <div class="p-3 bg-red-50 text-red-600 rounded-lg text-2xl">⚠️</div>
+                        <div class="p-3 bg-red-50 text-red-600 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+                            </svg>
+                        </div>
                     </div>
                 </div>
 
@@ -91,9 +111,9 @@
                                     + Tambah Barang Baru
                                 </a>
                             @elseif($user->role_id == 3)
-                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition">
-                                    🖨️ Cetak Laporan Bulanan
-                                </button>
+                                <a href="{{ route('reports.index') }}" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition inline-block">
+                                    🖨️ Lihat Laporan
+                                </a>
                             @endif
                         </div>
                     </div>
