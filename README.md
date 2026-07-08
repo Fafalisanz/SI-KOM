@@ -134,7 +134,7 @@ Aplikasi dapat diakses di `http://127.0.0.1:8000` (atau sesuai domain lokal Lara
 | ----------- | :----------------: | :-------------: | :---------------: | :----------------: | :------------: |
 | **Admin**   |    Full Access     |   Full Access   |    Full Access    | ✅ Lihat + Export  | ✅ Full Access |
 | **Staff**   |    Full Access     |   Full Access   |    Full Access    |         ❌         |       ❌       |
-| **Manager** |   👁️ Lihat saja    |  👁️ Lihat saja  |   👁️ Lihat saja   | ✅ Lihat + Export  |       ❌       |
+| **Manager** |     Lihat saja     |   Lihat saja    |    Lihat saja     | ✅ Lihat + Export  |       ❌       |
 
 ## Alur Bisnis Singkat
 
