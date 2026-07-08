@@ -1,58 +1,156 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Sistem Manajemen Inventaris - PT Telkomsel
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Aplikasi web untuk mengelola inventaris kantor: master data barang, peminjaman barang, laporan, dan manajemen pengguna berbasis role. Dibangun menggunakan Laravel sebagai bagian dari Challenge Seleksi Magang Sistem Informasi.
 
-## About Laravel
+## Fitur Utama
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **Autentikasi**: Login, Register, Logout, Forgot Password
+- **Role Management**: Admin (Full Access), Staff (kelola inventaris), Manager (lihat laporan)
+- **Master Data Barang**: CRUD lengkap, pencarian, filter kategori, pagination, upload gambar
+- **Peminjaman Barang**: Tambah peminjaman (multi-barang), pengembalian otomatis (stok tersinkron), riwayat, status
+- **Dashboard**: Statistik real-time, grafik peminjaman bulanan, aktivitas terbaru, notifikasi stok menipis
+- **Laporan Inventaris**: Laporan stok + ringkasan peminjaman, filter tanggal, export PDF
+- **Export Excel**: Export data Master Data Barang ke `.xlsx`
+- **Atur Pengguna**: Admin dapat menambah, mengubah role, dan menghapus akun pengguna
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Tech Stack
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Backend**: Laravel 13, PHP 8.3
+- **Frontend**: Blade Templates, Tailwind CSS
+- **Database**: MySQL
+- **Autentikasi**: Laravel Breeze
+- **PDF Export**: barryvdh/laravel-dompdf
+- **Excel Export**: maatwebsite/excel
+- **Chart**: Chart.js (grafik peminjaman bulanan)
 
-## Learning Laravel
+## Struktur Database
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+| Tabel               | Keterangan                                |
+| ------------------- | ----------------------------------------- |
+| `users`             | Data pengguna sistem, terhubung ke role   |
+| `roles`             | Referensi role (Admin, Staff, Manager)    |
+| `categories`        | Kategori barang                           |
+| `products`          | Master data barang                        |
+| `borrowings`        | Data transaksi peminjaman                 |
+| `borrowing_details` | Detail barang yang dipinjam per transaksi |
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Cara Instalasi
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+### 1. Clone repository
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+git clone <url-repository-ini>
+cd inventaris-telkomsel
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+### 2. Install dependency PHP
 
-## Contributing
+```bash
+composer install
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 3. Install dependency JavaScript
 
-## Code of Conduct
+```bash
+npm install
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 4. Salin file environment
 
-## Security Vulnerabilities
+```bash
+cp .env.example .env
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Kemudian sesuaikan konfigurasi database di `.env`:
 
-## License
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=inventaris_telkomsel
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 5. Generate application key
+
+```bash
+php artisan key:generate
+```
+
+### 6. Buat database
+
+Buat database kosong dengan nama sesuai `DB_DATABASE` di `.env` (contoh: `inventaris_telkomsel`) lewat phpMyAdmin, HeidiSQL, atau CLI MySQL.
+
+> Alternatif: import langsung file `database.sql` yang disertakan di repository ini ke database kosong tersebut, lalu **lewati langkah migration & seeding di bawah**.
+
+### 7. Jalankan migration & seeder
+
+```bash
+php artisan migrate --seed
+```
+
+Perintah ini akan membuat seluruh tabel sekaligus mengisi data awal (role, akun testing, kategori & produk contoh).
+
+### 8. Buat symbolic link storage (untuk upload gambar barang)
+
+```bash
+php artisan storage:link
+```
+
+### 9. Compile asset frontend
+
+```bash
+npm run build
+```
+
+Untuk mode development (auto-recompile saat ada perubahan):
+
+```bash
+npm run dev
+```
+
+### 10. Jalankan server
+
+```bash
+php artisan serve
+```
+
+Aplikasi dapat diakses di `http://127.0.0.1:8000` (atau sesuai domain lokal Laragon/Valet yang kamu pakai).
+
+## Akun Login Testing
+
+> ⚠️ Sesuaikan tabel ini dengan email & password asli yang ada di `database/seeders/UserSeeder.php` pada project kamu.
+
+| Role    | Email                 | Password |
+| ------- | --------------------- | -------- |
+| Admin   | admin@telkomsel.com   | password |
+| Staff   | staff@telkomsel.com   | password |
+| Manager | manager@telkomsel.com | password |
+
+## Struktur Role & Hak Akses
+
+| Role        | Master Data Barang | Kategori Barang | Peminjaman Barang | Laporan Inventaris | Atur Pengguna  |
+| ----------- | :----------------: | :-------------: | :---------------: | :----------------: | :------------: |
+| **Admin**   |    Full Access     |   Full Access   |    Full Access    | ✅ Lihat + Export  | ✅ Full Access |
+| **Staff**   |    Full Access     |   Full Access   |    Full Access    |         ❌         |       ❌       |
+| **Manager** |   👁️ Lihat saja    |  👁️ Lihat saja  |   👁️ Lihat saja   | ✅ Lihat + Export  |       ❌       |
+
+## Alur Bisnis Singkat
+
+1. **Peminjaman**: Saat peminjaman baru dicatat, stok barang terkait otomatis berkurang sesuai jumlah yang dipinjam.
+2. **Pengembalian**: Saat barang ditandai "dikembalikan", stok barang otomatis dikembalikan (increment) sesuai jumlah yang dipinjam sebelumnya.
+3. **Notifikasi Stok Menipis**: Sistem otomatis menandai barang dengan stok ≤ 5 sebagai "stok menipis", ditampilkan di dashboard dan lonceng notifikasi pada sidebar.
+4. **Laporan**: Menggabungkan data stok barang terkini dengan ringkasan aktivitas peminjaman pada rentang tanggal yang dipilih, dapat diexport ke PDF.
+
+## Screenshot
+
+_(Tambahkan screenshot dashboard, master data barang, dan laporan di sini sebelum submission, agar penilai bisa melihat preview tanpa perlu install project.)_
+
+## Link Demo
+
+_(Isi setelah deployment: https://your-deployed-url.com)_
+
+## Kontak
+
+Dibuat oleh **[Nama Kamu]** untuk Challenge Seleksi Magang Sistem Informasi PT Telkomsel.

@@ -103,9 +103,9 @@
                                 <a href="{{ route('products.create') }}" class="bg-[#E11417] text-white px-4 py-2 rounded-lg text-sm font-semibold mr-2 hover:bg-red-700 transition inline-block">
                                     + Tambah Barang Baru
                                 </a>
-                                <button class="bg-gray-800 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-gray-900 transition">
+                                <a href="{{ route('users.index') }}" class="bg-gray-800 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-gray-900 transition inline-block">
                                     ⚙️ Atur Pengguna
-                                </button>
+                                </a>
                             @elseif($user->role_id == 2)
                                 <a href="{{ route('products.create') }}" class="bg-[#E11417] text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-red-700 transition inline-block">
                                     + Tambah Barang Baru

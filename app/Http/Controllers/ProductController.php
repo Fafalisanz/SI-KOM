@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ProductsExport;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+use Maatwebsite\Excel\Facades\Excel;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class ProductController extends Controller
 {
@@ -31,6 +34,13 @@ class ProductController extends Controller
         $categories = Category::orderBy('name')->get();
 
         return view('products.index', compact('products', 'categories'));
+    }
+
+    public function exportExcel(Request $request): BinaryFileResponse
+    {
+        $export = new ProductsExport($request->search, $request->category_id);
+
+        return Excel::download($export, 'master-data-barang-' . now()->format('Y-m-d') . '.xlsx');
     }
 
     public function create(): View

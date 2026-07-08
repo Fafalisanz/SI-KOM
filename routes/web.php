@@ -6,10 +6,11 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\BorrowingController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route(auth()->check() ? 'dashboard' : 'login');
 });
 
 // Route dashboard
@@ -27,6 +28,7 @@ Route::middleware('auth')->group(function () {
     // Kalau tidak, "/products/create" akan tertangkap oleh pola "/products/{product}" duluan
 
     Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+    Route::get('/products/export/excel', [ProductController::class, 'exportExcel'])->name('products.export.excel');
     Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
     Route::get('/borrowings', [BorrowingController::class, 'index'])->name('borrowings.index');
 
@@ -34,6 +36,16 @@ Route::middleware('auth')->group(function () {
     Route::middleware('role:1,3')->group(function () {
         Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
         Route::get('/reports/export', [ReportController::class, 'exportPdf'])->name('reports.export');
+    });
+
+    // Atur Pengguna - hanya Admin (1)
+    Route::middleware('role:1')->group(function () {
+        Route::get('/users', [UserController::class, 'index'])->name('users.index');
+        Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
+        Route::post('/users', [UserController::class, 'store'])->name('users.store');
+        Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+        Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
+        Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
     });
 
     // Hanya Admin (1) & Staff (2) yang boleh Tambah/Edit/Hapus

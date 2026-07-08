@@ -18,12 +18,21 @@
 
             <header class="bg-white border-b border-gray-200 px-8 py-4 flex justify-between items-center">
                 <h1 class="text-xl font-bold text-gray-800">Master Data Barang</h1>
-                @if($canManage)
-                    <a href="{{ route('products.create') }}"
-                       class="bg-[#E11417] text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-red-700 transition">
-                        + Tambah Barang Baru
+                <div class="flex gap-2">
+                    <a href="{{ route('products.export.excel', request()->query()) }}"
+                       class="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-700 transition flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" />
+                        </svg>
+                        Export Excel
                     </a>
-                @endif
+                    @if($canManage)
+                        <a href="{{ route('products.create') }}"
+                           class="bg-[#E11417] text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-red-700 transition">
+                            + Tambah Barang Baru
+                        </a>
+                    @endif
+                </div>
             </header>
 
             <div class="p-8 overflow-y-auto flex-1">
