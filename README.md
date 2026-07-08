@@ -122,11 +122,11 @@ Aplikasi dapat diakses di `http://127.0.0.1:8000` (atau sesuai domain lokal Lara
 
 > ⚠️ Sesuaikan tabel ini dengan email & password asli yang ada di `database/seeders/UserSeeder.php` pada project kamu.
 
-| Role    | Email                 | Password |
-| ------- | --------------------- | -------- |
-| Admin   | admin@telkomsel.com   | password |
-| Staff   | staff@telkomsel.com   | password |
-| Manager | manager@telkomsel.com | password |
+| Role    | Email                 | Password      |
+| ------- | --------------------- | ------------- |
+| Admin   | admin@telkomsel.com   | password 1234 |
+| Staff   | staff@telkomsel.com   | password 123  |
+| Manager | manager@telkomsel.com | password 123  |
 
 ## Struktur Role & Hak Akses
 
